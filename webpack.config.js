@@ -1,7 +1,8 @@
 const HTMLPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: ['@babel/polyfill', './src/index.js'],
+    entry: ['@babel/polyfill', './src/js/index.js'],
     output: {
         path: __dirname + '/dist',
         filename: 'bundle.js'
@@ -11,6 +12,9 @@ module.exports = {
         new HTMLPlugin({
             filename: 'index.html',
             template: './src/index.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: './src/style.css',
         })
     ],
     resolve: {
@@ -27,7 +31,11 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
-            }
+            },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
+            },
         ]
     }
 }
