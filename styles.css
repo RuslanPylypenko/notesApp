@@ -1,0 +1,103 @@
+html {
+    font-family: sans-serif;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.container {
+    width: 1170px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.btn{
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    padding: 2px;
+    margin-left: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.8em;
+}
+
+tr {
+    border-right: 20px
+}
+
+table .actions{
+    min-width: 30px;
+}
+
+td, th {
+    text-align: left;
+    padding: 12px;
+    background: #eee;
+    max-width: 350px;
+}
+
+th {
+    background-color: #5f5f5f;
+    color: #fff;
+}
+
+td:first-child,
+th:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+td:last-child,
+th:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+
+/* Style the form - display items horizontally */
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Add some margins for each label */
+.form-inline label {
+    margin: 5px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+    .form-inline input {
+        margin: 10px 0;
+    }
+
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
