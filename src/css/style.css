@@ -1,6 +1,9 @@
+@import "~font-awesome";
+
 html {
     font-family: sans-serif;
 }
+
 
 .text-right{
     text-align: right;

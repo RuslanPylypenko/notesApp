@@ -14,7 +14,8 @@
 
 <div class="container">
     <h1>Note App</h1>
-    <table>
+    <table id="notes">
+        <thead>
         <tr>
             <th>Created</th>
             <th>Category</th>
@@ -24,75 +25,27 @@
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </th>
         </tr>
-        <tr>
-            <td>April 20, 2021</td>
-            <td>Task</td>
-            <td>Tomatoes, Bread</td>
-            <td></td>
-            <td class="text-right actions">
-                <a href="#" class="btn">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </a>
-
-                <a href="#" class="btn">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>April 20, 2021</td>
-            <td>Task</td>
-            <td>Tomatoes, Bread</td>
-            <td></td>
-            <td class="text-right actions">
-                <a href="#" class="btn">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </a>
-
-                <a href="#" class="btn">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>April 20, 2021</td>
-            <td>Task</td>
-            <td>I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021” the dates column is
-                “3/5/2021, 5/5/2021
-            </td>
-            <td>3/5/2021, 5/5/2021</td>
-            <td class="text-right actions">
-                <a href="#" class="btn">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </a>
-
-                <a href="#" class="btn">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </a>
-            </td>
-        </tr>
+        </thead>
+        <tbody>
+        </tbody>
     </table>
 
+    <form class="form-inline" action="#" id="create-note">
 
-    <div class="form-wrapper">
-        <form class="form-inline" action="#">
+        <div class="input-container">
+            <label for="content">Content:</label>
+            <input type="text" id="content" placeholder="Enter content" name="content">
+        </div>
 
-            <div class="input-container">
-                <label for="content">Content:</label>
-                <input type="text" id="content" placeholder="Enter content" name="content">
-            </div>
+        <div class="input-container">
+            <label for="category">Category:</label>
+            <input type="text" id="category" placeholder="Enter category" name="category">
+        </div>
 
-            <div class="input-container">
-                <label for="category">Category:</label>
-                <input type="text" id="category" placeholder="Enter category" name="category">
-            </div>
+        <button type="submit" class="btn">Create note</button>
+    </form>
 
-            <button type="submit" class="btn">Create note</button>
-        </form>
-    </div>
-
-
-    <table>
+    <table id="categories">
         <tr>
             <th>Note Category</th>
             <th>Active</th>

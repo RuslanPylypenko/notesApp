@@ -1,5 +1,10 @@
-import css from '../css/style.css'
+import '../css/style.css'
 
-async function app() {
-    await fetch('test');
-}
+import NotesComponents from "./components/notes.component";
+import NotesRepository from "./repositories/notes.repository";
+
+NotesRepository.syncDefaultData();
+
+const notesComponents = new NotesComponents('notes')
+
+console.log(notesComponents)
