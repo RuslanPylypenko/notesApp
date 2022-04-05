@@ -1,5 +1,4 @@
 import notes from '../data/notes'
-import {STATUS} from "../data/constants";
 
 export default class NotesRepository {
     static syncDefaultData() {
@@ -8,6 +7,21 @@ export default class NotesRepository {
 
     static fetchAll() {
         return JSON.parse(localStorage.getItem('notes'));
+    }
+
+    static findById(id) {
+        return this.fetchAll().find(note => note.id === id);
+    }
+
+    static update(id, data) {
+        const all = this.fetchAll();
+        const index = all.findIndex(note => note.id === id);
+
+        for (const dataKey in data) {
+            all[index][dataKey] = data[dataKey]
+        }
+
+        localStorage.setItem('notes', JSON.stringify(all));
     }
 
     static find(filter) {
@@ -19,11 +33,8 @@ export default class NotesRepository {
             })
     }
 
-    static fetchActive() {
-
-    }
-
-    static fetchArchived() {
-        return this.fetchAll().filter(note => note.status === STATUS.ARCHIVED)
+    static delete(id) {
+        const all = this.fetchAll();
+        localStorage.setItem('notes', JSON.stringify(all.filter(note => note.id !== id)));
     }
 }

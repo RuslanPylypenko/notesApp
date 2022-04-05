@@ -13,6 +13,11 @@ export default class NotesComponents extends Component {
 
         const toggleStatusBtn = this.$el.querySelector('.js-toggle-status')
         toggleStatusBtn.addEventListener('click', toggleStatusHandler.bind(this))
+
+
+        this.$el.addEventListener('click', removeNote.bind(this))
+        this.$el.addEventListener('click', archiveNote.bind(this))
+
     }
 
     updateHtml(notes) {
@@ -21,6 +26,33 @@ export default class NotesComponents extends Component {
         container.innerHTML = '';
         container.insertAdjacentHTML('afterbegin', html.join(' '))
     }
+}
+
+function removeNote(event) {
+    event.preventDefault();
+
+    const $el = event.target.closest('.js-remove-note')
+
+    if (!$el) return
+
+    const id = $el.dataset.id
+
+    NotesRepository.delete(id)
+    const status = this.$el.querySelector('.js-toggle-status').dataset.status;
+    this.updateHtml(NotesRepository.find({status}))
+}
+
+function archiveNote(event) {
+    event.preventDefault();
+
+    const $el = event.target.closest('.js-archive-note')
+    if (!$el) return
+
+    const id = $el.dataset.id
+    const status = this.$el.querySelector('.js-toggle-status').dataset.status;
+
+    NotesRepository.update(id, {status: status === STATUS.ACTIVE ? STATUS.ARCHIVED : STATUS.ACTIVE})
+    this.updateHtml(NotesRepository.find({status}))
 }
 
 
@@ -34,15 +66,15 @@ function renderNote(note) {
             <td>${note.content}</td>
             <td>${getDates(note.dates)}</td>
             <td class="text-right actions">
-                <a href="#" class="btn">
+                <a href="#" data-id="${note.id}" class="btn js-edit-note">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
 
-                <a href="#" class="btn">
+                <a href="#" data-id="${note.id}" data-status="${note.status}" class="btn js-archive-note">
                     <i class="fa fa-file-archive-o" aria-hidden="true"></i>
                 </a>
                 
-                <a href="#" class="btn">
+                <a href="#" data-id="${note.id}" class="btn js-remove-note">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
             </td>
