@@ -1,6 +1,6 @@
 import Component from "../core/component";
 import NotesRepository from "../repositories/notes.repository";
-import {CATEGORY_ICONS} from "../data/constants";
+import {CATEGORY_ICONS, STATUS} from "../data/constants";
 
 export default class NotesComponents extends Component {
     constructor(id) {
@@ -8,11 +8,18 @@ export default class NotesComponents extends Component {
     }
 
     async init() {
-        const notes = await NotesRepository.fetchAll()
-        const html = notes.map(note => renderNote(note));
+        const notes = await NotesRepository.find({status: STATUS.ACTIVE})
+        this.updateHtml(notes)
 
-        console.log(notes)
-        this.$el.querySelector('tbody').insertAdjacentHTML('afterbegin', html.join(' '))
+        const toggleStatusBtn = this.$el.querySelector('.js-toggle-status')
+        toggleStatusBtn.addEventListener('click', toggleStatusHandler.bind(this))
+    }
+
+    updateHtml(notes) {
+        const html = notes.map(note => renderNote(note));
+        const container = this.$el.querySelector('tbody');
+        container.innerHTML = '';
+        container.insertAdjacentHTML('afterbegin', html.join(' '))
     }
 }
 
@@ -25,7 +32,7 @@ function renderNote(note) {
             <td>${note.created_at}</td>
             <td>${note.category}</td>
             <td>${note.content}</td>
-            <td>${note.dates !== null ? note.dates.join(', ') : ''}</td>
+            <td>${getDates(note.dates)}</td>
             <td class="text-right actions">
                 <a href="#" class="btn">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -41,6 +48,20 @@ function renderNote(note) {
             </td>
         </tr>
     `
+}
+
+async function toggleStatusHandler(event) {
+    event.preventDefault();
+
+    const status = event.currentTarget.dataset.status === STATUS.ARCHIVED ? STATUS.ACTIVE : STATUS.ARCHIVED
+    event.currentTarget.dataset.status = status;
+
+    const notes = await NotesRepository.find({status})
+    this.updateHtml(notes)
+}
+
+function getDates(dates) {
+    return dates !== null ? dates.join(', ') : ''
 }
 
 function getCategoryIcon(category) {

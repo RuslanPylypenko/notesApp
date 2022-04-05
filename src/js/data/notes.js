@@ -62,4 +62,13 @@ export default [
         category: 'Quote',
         status: 'active'
     },
+    {
+        id: 'w1vg2u4',
+        name: 'Archived default',
+        created_at: 'May 15, 2019',
+        content: 'Archived content!',
+        dates: null,
+        category: 'Quote',
+        status: 'archived'
+    },
 ]

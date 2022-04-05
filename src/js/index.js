@@ -6,6 +6,4 @@ import NotesRepository from "./repositories/notes.repository";
 document.addEventListener('DOMContentLoaded', function () {
     NotesRepository.syncDefaultData();
     const notesComponents = new NotesComponents('notes')
-
-    console.log(notesComponents)
 })
