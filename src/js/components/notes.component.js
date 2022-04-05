@@ -1,6 +1,7 @@
 import Component from "../core/component";
 import NotesRepository from "../repositories/notes.repository";
 import {CATEGORY_ICONS, STATUS} from "../data/constants";
+import SummaryComponent from "./summary.component";
 
 export default class NotesComponents extends Component {
     constructor(id) {
@@ -40,6 +41,8 @@ function removeNote(event) {
     NotesRepository.delete(id)
     const status = this.$el.querySelector('.js-toggle-status').dataset.status;
     this.updateHtml(NotesRepository.find({status}))
+
+    new SummaryComponent('summary')
 }
 
 function archiveNote(event) {
@@ -53,6 +56,8 @@ function archiveNote(event) {
 
     NotesRepository.update(id, {status: status === STATUS.ACTIVE ? STATUS.ARCHIVED : STATUS.ACTIVE})
     this.updateHtml(NotesRepository.find({status}))
+
+    new SummaryComponent('summary')
 }
 
 

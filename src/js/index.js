@@ -1,9 +1,11 @@
 import '../css/style.css'
 
-import NotesComponents from "./components/notes.component";
+import NotesComponent from "./components/notes.component";
 import NotesRepository from "./repositories/notes.repository";
+import SummaryComponent from "./components/summary.component";
 
 document.addEventListener('DOMContentLoaded', function () {
     NotesRepository.syncDefaultData();
-    const notesComponents = new NotesComponents('notes')
+    const notesComponents = new NotesComponent('notes')
+    const summaryComponent = new SummaryComponent('summary')
 })

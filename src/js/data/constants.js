@@ -3,12 +3,7 @@ export const STATUS = {
     ARCHIVED: 'archived'
 }
 
-export const CATEGORIES = {
-    RANDOM_THOUGHT: 'Random Thought',
-    IDEA: 'Idea',
-    Quote: 'Quote',
-    Task: 'Task',
-}
+export const CATEGORIES = ['Random Thought', 'Idea', 'Quote', 'Task']
 
 export const CATEGORY_ICONS = [
     {
