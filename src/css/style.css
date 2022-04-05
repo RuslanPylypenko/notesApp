@@ -77,7 +77,7 @@ th:last-child {
 }
 
 /* Style the input fields */
-.form-inline input {
+.form-inline input, .form-inline select {
     vertical-align: middle;
     margin: 5px 10px 5px 0;
     padding: 10px;

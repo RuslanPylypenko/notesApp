@@ -37,13 +37,24 @@
     <form class="form-inline" action="#" id="create-note">
 
         <div class="input-container">
-            <label for="content">Content:</label>
-            <input type="text" id="content" placeholder="Enter content" name="content">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter name" name="name">
         </div>
 
         <div class="input-container">
+
             <label for="category">Category:</label>
-            <input type="text" id="category" placeholder="Enter category" name="category">
+            <select name="category" id="category">
+                <option selected="selected" value="Quote">Quote</option>
+                <option value="Idea">Idea</option>
+                <option value="Random Thought">Random Thought</option>
+                <option value="Task">Task</option>
+            </select>
+        </div>
+
+        <div class="input-container">
+            <label for="content">Content:</label>
+            <input type="text" id="content" placeholder="Enter content" name="content">
         </div>
 
         <button type="submit" class="btn">Create note</button>
