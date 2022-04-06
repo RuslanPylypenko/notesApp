@@ -23,7 +23,7 @@ function submitHandler(event) {
     event.preventDefault()
 
     if(this.form.isValid()){
-        console.log(this.form.value())
+        this.form.clear()
     }
 
 

@@ -67,7 +67,7 @@ th:last-child {
 .form-inline {
     display: flex;
     flex-flow: row wrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
 }
 
@@ -76,13 +76,29 @@ th:last-child {
     margin: 5px 10px 5px 0;
 }
 
+.input-container .validation-error{
+    color: #e84343;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    margin: 0 10px 0 0;
+}
+
 /* Style the input fields */
 .form-inline input, .form-inline select {
     vertical-align: middle;
-    margin: 5px 10px 5px 0;
+    margin: 0 10px 5px 0;
     padding: 10px;
     background-color: #fff;
     border: 1px solid #ddd;
+}
+
+.input-container.invalid input,
+.input-container.invalid select {
+    border: 1px solid #e84343;
+}
+.input-container.invalid label{
+    color: #e84343;
 }
 
 /* Style the submit button */

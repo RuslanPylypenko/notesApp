@@ -19,13 +19,50 @@ export default class Form {
             const validators = this.controls[control]
 
             let isValid = true
+            let validatorName = ''
             validators.forEach(validator => {
+                validatorName = validator.name
                 isValid = validator(this.form[control].value) && isValid
             })
+
+            isValid ? clearError(this.form[control]) : setError(this.form[control], validatorName)
 
             isFormValid = isFormValid && isValid
         })
 
         return isFormValid
     }
+
+    clear(){
+        Object.keys(this.controls).forEach(control => {
+            this.form[control].value = ''
+        })
+    }
+}
+
+function setError($control, validator) {
+    clearError($control)
+    const error = `<p class="validation-error">${getErrorByValidator(validator)}</p>`
+    $control.closest('.input-container').classList.add('invalid')
+    $control.insertAdjacentHTML('afterend', error)
+}
+
+function clearError($control) {
+    $control.closest('.input-container').classList.remove('invalid')
+    console.log($control)
+    if($control.nextSibling){
+        $control.closest('.input-container').removeChild($control.nextSibling)
+    }
+
+}
+
+function getErrorByValidator(validator)
+{
+    switch (validator){
+        case 'required':
+            return 'Field is required'
+        case 'inArray':
+            return 'Invalid value'
+    }
+
 }

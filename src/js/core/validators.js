@@ -4,8 +4,7 @@ export default class Validators {
     }
 
     static in(list) {
-        return value => {
-            return list.includes(value)
-        }
+        const inArray = value => list.includes(value)
+        return inArray
     }
 }
