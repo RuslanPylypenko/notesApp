@@ -33,9 +33,21 @@ export default class Form {
         return isFormValid
     }
 
-    clear(){
+    clear() {
         Object.keys(this.controls).forEach(control => {
-            this.form[control].value = ''
+            if (this.form[control].tagName === "SELECT") {
+                this.form[control].selectedIndex = 0
+            }else {
+                this.form[control].value = ''
+            }
+
+
+        })
+    }
+
+    setValues(values) {
+        Object.keys(this.controls).forEach(control => {
+            this.form[control].value = values[control]
         })
     }
 }
@@ -49,15 +61,14 @@ function setError($control, validator) {
 
 function clearError($control) {
     $control.closest('.input-container').classList.remove('invalid')
-    if($control.nextSibling){
+    if ($control.nextSibling) {
         $control.closest('.input-container').removeChild($control.nextSibling)
     }
 
 }
 
-function getErrorByValidator(validator)
-{
-    switch (validator){
+function getErrorByValidator(validator) {
+    switch (validator) {
         case 'required':
             return 'Field is required'
         case 'inArray':

@@ -3,43 +3,48 @@ import Form from "../core/form";
 import Validators from "../core/validators";
 import {CATEGORIES} from "../data/constants";
 import moment from "moment";
-import NotesComponents from "./notes.component";
 import NotesRepository from "../repositories/notes.repository";
+import NotesComponents from "./notes.component";
 
-export default class CreateComponent extends Component {
+export default class EditComponent extends Component {
     constructor(id) {
         super(id);
     }
 
-    init() {
+    setFormValues(note) {
         this.$el.addEventListener('submit', submitHandler.bind(this))
+
+        this.$el.dataset.type = 'edit';
+
+
+        this.id = note.id
 
         this.form = new Form(this.$el, {
             name: [Validators.required],
             content: [Validators.required],
             category: [Validators.required, Validators.in(CATEGORIES)]
         })
+
+        this.form.setValues(note)
     }
 }
 
 function submitHandler(event) {
     event.preventDefault()
 
-    if(this.$el.dataset.type === 'create'){
-        if (this.form.isValid()) {
-            const formData = {
-                dates: dateParser(this.$el.content.value),
-                ...this.form.value()
-            }
-
-            NotesRepository.create(formData)
-            new NotesComponents('notes')
-
-            this.form.clear()
+    if (this.form.isValid()) {
+        const formData = {
+            dates: dateParser(this.$el.content.value),
+            ...this.form.value()
         }
+
+        NotesRepository.update(this.id, formData)
+        this.$el.dataset.type = 'create';
+
+        new NotesComponents('notes')
+
+        this.form.clear()
     }
-
-
 }
 
 const dateParser = (text) => {

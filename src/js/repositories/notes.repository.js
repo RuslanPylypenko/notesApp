@@ -35,6 +35,7 @@ export default class NotesRepository {
             all[index][dataKey] = data[dataKey]
         }
 
+
         localStorage.setItem('notes', JSON.stringify(all));
     }
 

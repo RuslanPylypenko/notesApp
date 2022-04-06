@@ -7,7 +7,7 @@ import CreateComponent from "./components/create.component";
 
 document.addEventListener('DOMContentLoaded', function () {
     NotesRepository.syncDefaultData();
-    const notesComponents = new NotesComponent('notes')
-    const summaryComponent = new SummaryComponent('summary')
-    const createComponent = new CreateComponent('create-note')
+    new NotesComponent('notes')
+    new SummaryComponent('summary')
+    new CreateComponent('note-form')
 })

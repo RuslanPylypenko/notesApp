@@ -2,6 +2,7 @@ import Component from "../core/component";
 import NotesRepository from "../repositories/notes.repository";
 import {CATEGORY_ICONS, STATUS} from "../data/constants";
 import SummaryComponent from "./summary.component";
+import EditComponent from "./edit.component";
 
 export default class NotesComponents extends Component {
     constructor(id) {
@@ -9,15 +10,15 @@ export default class NotesComponents extends Component {
     }
 
     async init() {
-        const notes = await NotesRepository.find({status: STATUS.ACTIVE})
+        const status = this.$el.querySelector('.js-toggle-status').dataset.status;
+        const notes = await NotesRepository.find({status})
         this.updateHtml(notes)
 
-        const toggleStatusBtn = this.$el.querySelector('.js-toggle-status')
-        toggleStatusBtn.addEventListener('click', toggleStatusHandler.bind(this))
 
-
-        this.$el.addEventListener('click', removeNote.bind(this))
-        this.$el.addEventListener('click', archiveNote.bind(this))
+        this.$el.addEventListener('click', toggleStatusHandler.bind(this))
+        this.$el.addEventListener('click', removeNoteHandler.bind(this))
+        this.$el.addEventListener('click', archiveNoteHandler.bind(this))
+        this.$el.addEventListener('click', editNoteHandler.bind(this))
 
     }
 
@@ -29,15 +30,27 @@ export default class NotesComponents extends Component {
     }
 }
 
-function removeNote(event) {
+function editNoteHandler(event){
     event.preventDefault();
 
-    const $el = event.target.closest('.js-remove-note')
+    const $el = event.target.closest('.js-edit-note')
 
     if (!$el) return
 
     const id = $el.dataset.id
 
+    const note = NotesRepository.findById(id)
+
+    const editComponent = new EditComponent('note-form')
+    editComponent.setFormValues(note)
+}
+
+function removeNoteHandler(event) {
+    event.preventDefault();
+    const $el = event.target.closest('.js-remove-note')
+    if (!$el) return
+
+    const id = $el.dataset.id
     NotesRepository.delete(id)
     const status = this.$el.querySelector('.js-toggle-status').dataset.status;
     this.updateHtml(NotesRepository.find({status}))
@@ -45,7 +58,7 @@ function removeNote(event) {
     new SummaryComponent('summary')
 }
 
-function archiveNote(event) {
+function archiveNoteHandler(event) {
     event.preventDefault();
 
     const $el = event.target.closest('.js-archive-note')
@@ -60,6 +73,18 @@ function archiveNote(event) {
     new SummaryComponent('summary')
 }
 
+async function toggleStatusHandler(event) {
+    event.preventDefault();
+
+    const $el = event.target.closest('.js-toggle-status')
+    if (!$el) return
+
+    const status = $el.dataset.status === STATUS.ARCHIVED ? STATUS.ACTIVE : STATUS.ARCHIVED
+    $el.dataset.status = status;
+
+    const notes = await NotesRepository.find({status})
+    this.updateHtml(notes)
+}
 
 function renderNote(note) {
     return `        
@@ -85,16 +110,6 @@ function renderNote(note) {
             </td>
         </tr>
     `
-}
-
-async function toggleStatusHandler(event) {
-    event.preventDefault();
-
-    const status = event.currentTarget.dataset.status === STATUS.ARCHIVED ? STATUS.ACTIVE : STATUS.ARCHIVED
-    event.currentTarget.dataset.status = status;
-
-    const notes = await NotesRepository.find({status})
-    this.updateHtml(notes)
 }
 
 function getDates(dates) {
