@@ -49,7 +49,6 @@ function setError($control, validator) {
 
 function clearError($control) {
     $control.closest('.input-container').classList.remove('invalid')
-    console.log($control)
     if($control.nextSibling){
         $control.closest('.input-container').removeChild($control.nextSibling)
     }
