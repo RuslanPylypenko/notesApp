@@ -3,18 +3,20 @@ import Form from "../core/form";
 import Validators from "../core/validators";
 import {CATEGORIES} from "../data/constants";
 import moment from "moment";
-import NotesComponents from "./notes.component";
-import NotesRepository from "../repositories/notes.repository";
+import EventManager from "../core/eventManager";
 
-export default class CreateComponent extends Component {
-    constructor(id) {
+export default class NotesFormComponent extends Component {
+    constructor(id, repository) {
         super(id);
+        this.events = new EventManager()
+        this.repository = repository
     }
 
     init() {
         this.$el.addEventListener('submit', submitHandler.bind(this))
 
         this.form = new Form(this.$el, {
+            id: [],
             name: [Validators.required],
             content: [Validators.required],
             category: [Validators.required, Validators.in(CATEGORIES)]
@@ -25,21 +27,20 @@ export default class CreateComponent extends Component {
 function submitHandler(event) {
     event.preventDefault()
 
-    if(this.$el.dataset.type === 'create'){
-        if (this.form.isValid()) {
-            const formData = {
-                dates: dateParser(this.$el.content.value),
-                ...this.form.value()
-            }
-
-            NotesRepository.create(formData)
-            new NotesComponents('notes')
-
-            this.form.clear()
+    if (this.form.isValid()) {
+        const formData = {
+            dates: dateParser(this.$el.content.value),
+            ...this.form.value()
         }
+
+        const id = this.$el.id.value
+
+        id ? this.repository.update(id, formData) : this.repository.create(formData)
+
+        this.form.clear()
+
+        this.events.notify('update', null)
     }
-
-
 }
 
 const dateParser = (text) => {

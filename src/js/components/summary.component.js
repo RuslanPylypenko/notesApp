@@ -3,12 +3,13 @@ import NotesRepository from "../repositories/notes.repository";
 import {CATEGORIES, CATEGORY_ICONS, STATUS} from "../data/constants";
 
 export default class SummaryComponent extends Component {
-    constructor(id) {
+    constructor(id, repository) {
         super(id);
+        this.repository = repository
     }
 
-    async init() {
-        const notes = await NotesRepository.fetchAll()
+    render() {
+        const notes = this.repository.fetchAll()
 
         const summary = CATEGORIES.map(category => ({
             category,
@@ -21,10 +22,14 @@ export default class SummaryComponent extends Component {
         container.innerHTML = '';
         container.insertAdjacentHTML('afterbegin', html.join(' '))
     }
+
+    async update() {
+        await this.render()
+    }
 }
 
 function renderSummaryRow(data) {
-    return`        
+    return `        
         <tr>
             <td><i class="fa fa-${getCategoryIcon(data.category)}"></i></td>
             <td>${data.category}</td>

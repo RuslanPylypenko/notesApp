@@ -8,15 +8,15 @@ export default class NotesRepository {
         localStorage.setItem('notes', JSON.stringify(notes))
     }
 
-    static fetchAll() {
+     fetchAll() {
         return JSON.parse(localStorage.getItem('notes'));
     }
 
-    static findById(id) {
+    findById(id) {
         return this.fetchAll().find(note => note.id === id);
     }
 
-    static create(data){
+     create(data) {
         const all = this.fetchAll();
         all.push({
             id: Id(),
@@ -27,19 +27,20 @@ export default class NotesRepository {
         localStorage.setItem('notes', JSON.stringify(all));
     }
 
-    static update(id, data) {
+     update(id, data) {
         const all = this.fetchAll();
         const index = all.findIndex(note => note.id === id);
+
+        if(!index) return
 
         for (const dataKey in data) {
             all[index][dataKey] = data[dataKey]
         }
 
-
         localStorage.setItem('notes', JSON.stringify(all));
     }
 
-    static find(filter) {
+     find(filter) {
         return this.fetchAll()
             .filter(note => {
                 for (const filterKey in filter) {
@@ -48,7 +49,7 @@ export default class NotesRepository {
             })
     }
 
-    static delete(id) {
+     delete(id) {
         const all = this.fetchAll();
         localStorage.setItem('notes', JSON.stringify(all.filter(note => note.id !== id)));
     }

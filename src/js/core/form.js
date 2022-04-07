@@ -37,7 +37,7 @@ export default class Form {
         Object.keys(this.controls).forEach(control => {
             if (this.form[control].tagName === "SELECT") {
                 this.form[control].selectedIndex = 0
-            }else {
+            } else {
                 this.form[control].value = ''
             }
 
@@ -53,17 +53,24 @@ export default class Form {
 }
 
 function setError($control, validator) {
-    clearError($control)
-    const error = `<p class="validation-error">${getErrorByValidator(validator)}</p>`
-    $control.closest('.input-container').classList.add('invalid')
-    $control.insertAdjacentHTML('afterend', error)
+    const inputWrapper = $control.closest('.input-container');
+    if (inputWrapper) {
+        clearError($control)
+        const error = `<p class="validation-error">${getErrorByValidator(validator)}</p>`
+        inputWrapper.classList.add('invalid')
+        $control.insertAdjacentHTML('afterend', error)
+    }
 }
 
 function clearError($control) {
-    $control.closest('.input-container').classList.remove('invalid')
-    if ($control.nextSibling) {
-        $control.closest('.input-container').removeChild($control.nextSibling)
+    const inputWrapper = $control.closest('.input-container');
+    if (inputWrapper) {
+        inputWrapper.classList.remove('invalid')
+        if ($control.nextSibling) {
+            $control.closest('.input-container').removeChild($control.nextSibling)
+        }
     }
+
 
 }
 
