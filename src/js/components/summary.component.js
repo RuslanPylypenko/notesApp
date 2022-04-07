@@ -3,9 +3,9 @@ import NotesRepository from "../repositories/notes.repository";
 import {CATEGORIES, CATEGORY_ICONS, STATUS} from "../data/constants";
 
 export default class SummaryComponent extends Component {
-    constructor(id, repository) {
+    constructor(id) {
         super(id);
-        this.repository = repository
+        this.repository = new NotesRepository()
     }
 
     render() {

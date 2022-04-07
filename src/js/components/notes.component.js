@@ -1,13 +1,14 @@
 import Component from "../core/component";
 import {CATEGORY_ICONS, STATUS} from "../data/constants";
 import EventManager from "../core/eventManager";
+import NotesRepository from "../repositories/notes.repository";
 
 export default class NotesComponents extends Component {
-    constructor(id, formComponent, repository) {
+    constructor(id, formComponent) {
         super(id);
         this.formComponent = formComponent;
         this.events = new EventManager()
-        this.repository = repository
+        this.repository = new NotesRepository()
     }
 
     async init() {

@@ -8,10 +8,9 @@ import SummaryComponent from "./components/summary.component";
 document.addEventListener('DOMContentLoaded', function () {
     NotesRepository.syncDefaultData();
 
-    const notesRepository = new NotesRepository();
-    const formComponent = new NotesFormComponent('note-form', notesRepository)
-    const summaryComponent = new SummaryComponent('summary', notesRepository);
-    const notesComponent = new NotesComponent('notes', formComponent, notesRepository);
+    const formComponent = new NotesFormComponent('note-form')
+    const summaryComponent = new SummaryComponent('summary');
+    const notesComponent = new NotesComponent('notes', formComponent);
 
     notesComponent.events.subscribe('update', summaryComponent)
 

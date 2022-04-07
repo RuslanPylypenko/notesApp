@@ -4,12 +4,13 @@ import Validators from "../core/validators";
 import {CATEGORIES} from "../data/constants";
 import moment from "moment";
 import EventManager from "../core/eventManager";
+import NotesRepository from "../repositories/notes.repository";
 
 export default class NotesFormComponent extends Component {
-    constructor(id, repository) {
+    constructor(id) {
         super(id);
         this.events = new EventManager()
-        this.repository = repository
+        this.repository = new NotesRepository()
     }
 
     init() {
