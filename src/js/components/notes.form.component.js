@@ -5,6 +5,7 @@ import {CATEGORIES} from "../data/constants";
 import moment from "moment";
 import EventManager from "../core/eventManager";
 import NotesRepository from "../repositories/notes.repository";
+import Toastify from 'toastify-js'
 
 export default class NotesFormComponent extends Component {
     constructor(id) {
@@ -28,20 +29,28 @@ export default class NotesFormComponent extends Component {
 function submitHandler(event) {
     event.preventDefault()
 
-    if (this.form.isValid()) {
-        const formData = {
-            dates: dateParser(this.$el.content.value),
-            ...this.form.value()
+    try {
+        if (this.form.isValid()) {
+            const formData = {
+                dates: dateParser(this.$el.content.value),
+                ...this.form.value()
+            }
+
+            const id = this.$el.id.value
+
+            id ? this.repository.update(id, formData) : this.repository.create(formData)
+
+            this.form.clear()
+            this.events.notify('update', null)
         }
-
-        const id = this.$el.id.value
-
-        id ? this.repository.update(id, formData) : this.repository.create(formData)
-
-        this.form.clear()
-
-        this.events.notify('update', null)
+    }catch (e){
+        Toastify({
+            text: e,
+            className: 'error',
+            duration: 3000
+        }).showToast();
     }
+
 }
 
 const dateParser = (text) => {

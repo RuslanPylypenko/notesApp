@@ -8,15 +8,15 @@ export default class NotesRepository {
         localStorage.setItem('notes', JSON.stringify(notes))
     }
 
-     fetchAll() {
+    fetchAll() {
         return JSON.parse(localStorage.getItem('notes'));
     }
 
     findById(id) {
-        return this.fetchAll().find(note => note.id === id);
+        return this.fetchAll()[this.getIdxById(id)];
     }
 
-     create(data) {
+    create(data) {
         const all = this.fetchAll();
         all.push({
             id: Id(),
@@ -27,20 +27,18 @@ export default class NotesRepository {
         localStorage.setItem('notes', JSON.stringify(all));
     }
 
-     update(id, data) {
+    update(id, data) {
         const all = this.fetchAll();
-        const index = all.findIndex(note => note.id === id);
-
-        if(!index) return
+        const idx = this.getIdxById(id);
 
         for (const dataKey in data) {
-            all[index][dataKey] = data[dataKey]
+            all[idx][dataKey] = data[dataKey]
         }
 
         localStorage.setItem('notes', JSON.stringify(all));
     }
 
-     find(filter) {
+    find(filter) {
         return this.fetchAll()
             .filter(note => {
                 for (const filterKey in filter) {
@@ -49,8 +47,18 @@ export default class NotesRepository {
             })
     }
 
-     delete(id) {
+    delete(id) {
         const all = this.fetchAll();
         localStorage.setItem('notes', JSON.stringify(all.filter(note => note.id !== id)));
     }
+
+    getIdxById(id) {
+        const all = this.fetchAll();
+        const index = all.findIndex(note => note.id === id);
+
+        if (index === -1) throw new Error('Note not found');
+
+        return index;
+    }
+
 }

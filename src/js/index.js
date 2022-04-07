@@ -1,4 +1,5 @@
 import '../css/style.css'
+import "toastify-js/src/toastify.css"
 
 import NotesComponent from "./components/notes.component";
 import NotesRepository from "./repositories/notes.repository";
@@ -19,6 +20,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     notesComponent.render();
     summaryComponent.render();
-
 
 })

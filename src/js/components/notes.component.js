@@ -2,6 +2,7 @@ import Component from "../core/component";
 import {CATEGORY_ICONS, STATUS} from "../data/constants";
 import EventManager from "../core/eventManager";
 import NotesRepository from "../repositories/notes.repository";
+import Toastify from "toastify-js";
 
 export default class NotesComponents extends Component {
     constructor(id, formComponent) {
@@ -37,55 +38,90 @@ export default class NotesComponents extends Component {
 }
 
 function editNoteHandler(event) {
-    event.preventDefault();
+    try {
+        event.preventDefault();
 
-    const $el = event.target.closest('.js-edit-note')
-    if (!$el) return
+        const $el = event.target.closest('.js-edit-note')
+        if (!$el) return
 
 
-    const id = $el.dataset.id
-    const note = this.repository.findById(id)
+        const id = $el.dataset.id
+        const note = this.repository.findById(id)
 
-    this.formComponent.form.setValues(note)
+        this.formComponent.form.setValues(note)
+    }catch (e){
+        Toastify({
+            text: e,
+            className: 'error',
+            duration: 3000
+        }).showToast();
+    }
+
 }
 
 function removeNoteHandler(event) {
-    event.preventDefault();
+    try {
+        event.preventDefault();
 
-    const $el = event.target.closest('.js-remove-note')
-    if (!$el) return
+        const $el = event.target.closest('.js-remove-note')
+        if (!$el) return
 
-    const id = $el.dataset.id
-    this.repository.delete(id)
+        const id = $el.dataset.id
+        this.repository.delete(id)
 
-    this.render()
-    this.events.notify('update', null)
+        this.render()
+        this.events.notify('update', null)
+    }catch (e) {
+        Toastify({
+            text: e,
+            className: 'error',
+            duration: 3000
+        }).showToast();
+    }
+
 }
 
 function archiveNoteHandler(event) {
-    event.preventDefault();
+    try {
+        event.preventDefault();
 
-    const $el = event.target.closest('.js-archive-note')
-    if (!$el) return
+        const $el = event.target.closest('.js-archive-note')
+        if (!$el) return
 
-    const id = $el.dataset.id
-    const status = this.$el.querySelector('.js-toggle-status').dataset.status;
+        const id = $el.dataset.id
+        const status = this.$el.querySelector('.js-toggle-status').dataset.status;
 
-    this.repository.update(id, {status: status === STATUS.ACTIVE ? STATUS.ARCHIVED : STATUS.ACTIVE})
+        this.repository.update(id, {status: status === STATUS.ACTIVE ? STATUS.ARCHIVED : STATUS.ACTIVE})
 
-    this.render()
-    this.events.notify('update', null)
+        this.render()
+        this.events.notify('update', null)
+    }catch (e) {
+        Toastify({
+            text: e,
+            className: 'error',
+            duration: 3000
+        }).showToast();
+    }
+
 }
 
 function toggleStatusHandler(event) {
-    event.preventDefault();
+    try {
+        event.preventDefault();
 
-    const $el = event.target.closest('.js-toggle-status')
-    if (!$el) return
+        const $el = event.target.closest('.js-toggle-status')
+        if (!$el) return
 
-    $el.dataset.status = $el.dataset.status === STATUS.ARCHIVED ? STATUS.ACTIVE : STATUS.ARCHIVED
+        $el.dataset.status = $el.dataset.status === STATUS.ARCHIVED ? STATUS.ACTIVE : STATUS.ARCHIVED
 
-    this.render();
+        this.render();
+    }catch (e) {
+        Toastify({
+            text: e,
+            className: 'error',
+            duration: 3000
+        }).showToast();
+    }
 }
 
 function renderNote(note) {

@@ -108,6 +108,10 @@ th:last-child {
     color: #333;
 }
 
+.toastify.error{
+    background: linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113));
+}
+
 
 /* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
 @media (max-width: 800px) {
